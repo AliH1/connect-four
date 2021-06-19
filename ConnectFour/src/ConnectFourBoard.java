@@ -1,11 +1,12 @@
 public class ConnectFourBoard {
 	//P1 refers to the Red disc P2 refers to Yellow disc
-	public static final char EMPTY =' ', P1 = 'O', P2 = 'X';
+
+	public static final char EMPTY =' ', P1 = 'R', P2 = 'Y';
 	private char[][] board;
 
 	public ConnectFourBoard(){
-		for (int row = 0; row < 7; row++){
-			for (int col = 0; col < 6; col++){
+		for (int row = 0; row < ConnectFour.length; row++){
+			for (int col = 0; col < ConnectFour.width; col++){
 				this.board[row][col] = EMPTY;
 			}
 		}
@@ -20,21 +21,23 @@ public class ConnectFourBoard {
 		}
 	}
 	
-	public int dropdownPos(int cur_row,int col){
-		//invalid move so return -1 if dropdownPos is -1 then nothing will happen on board
-		if(cur_row<0) {
+	public int dropdownPos(int rowPos,int colPos){
+		if(board[6][colPos] == P1 | board[6][colPos] == P2)  
 			return -1;
-		}
-		if(board[cur_row][col] != P1 | board[cur_row][col] != P2) {
-			return cur_row;
-		}
-		else {
-			return dropdownPos(cur_row-1, col);
-		}
+		
+		if(rowPos<0)  
+			return 0;
+		
+		if(board[rowPos][colPos] == P1 | board[rowPos][colPos] == P2) 
+			return rowPos + 1; 
+		
+		return dropdownPos(rowPos-1, colPos);
 	}
+
 	
 	public char findWinner(){
 		return P1;
 		
 	}
+
 }

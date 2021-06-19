@@ -7,6 +7,8 @@
  */
 
 public class ConnectFour {
+	public static final int length = 6;
+	public static final int width = 7;
 	private ConnectFourBoard board = new ConnectFourBoard();
 	private char WhosTurn = ConnectFourBoard.P1; //player1's turn to begin
 	
@@ -14,18 +16,10 @@ public class ConnectFour {
 		return WhosTurn;
 	}
 	
-	public boolean gameOver() {
-		return true;
-	}
 	
 	public char getWinner() {
-		if(gameOver()) {
-			return board.findWinner();
-		}
-		else {
-			//to represent there is no winner
-			return ConnectFourBoard.EMPTY;
-		}
+		return board.findWinner();
+
 	}
 	
 }
