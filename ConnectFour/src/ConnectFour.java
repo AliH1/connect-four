@@ -16,8 +16,17 @@ public class ConnectFour {
 		return WhosTurn;
 	}
 	
+	public boolean move(int colPos, char player){
+		int rowPos = this.board.dropdownPos(0, colPos);
+		if(rowPos == -1)
+			return false;
+		board.updateBoard(player, rowPos, colPos);
+		return true;	
+	}
 	
 	public char getWinner() {
+		if(board.isDraw())
+			return 'D'; //for draw
 		return board.findWinner();
 
 	}
