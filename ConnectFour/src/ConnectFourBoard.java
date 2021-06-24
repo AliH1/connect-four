@@ -51,9 +51,59 @@ public class ConnectFourBoard {
 		}
 	}
 	
+	private boolean validCoordinate(int row, int col) {
+		return 0 <= row && row < ConnectFour.length && 0 <= col && col < ConnectFour.width;
+	}
+	
 	public char findWinner(){
-		return P1;
-		
+		int length = ConnectFour.length;
+		int width = ConnectFour.width;
+		for (int row = 0; row < ConnectFour.length; row++){
+			for (int col = 0; col < ConnectFour.width; col++){
+				char player = board[row][col];
+				if(player != EMPTY) {
+					if(validCoordinate(row, col+3)) { //horizontal right check
+						if(player == board[row][col+1] && player == board[row][col+2] & player== board[row][col+3])
+							return player;
+					}
+					if(validCoordinate(row, col-3)) { //horizontal left check
+						if(player == board[row][col-1] && player == board[row][col-2] & player== board[row][col-3])
+							return player;						
+					}
+					if(validCoordinate(row+3, col)) { //vertical down check
+						if(player == board[row+1][col] && player == board[row+2][col] & player== board[row+3][col])
+							return player;						
+					}
+					if(validCoordinate(row-3, col)) { //vertical up check
+						if(player == board[row-1][col] && player == board[row-2][col] & player== board[row-3][col])
+							return player;	
+					}
+					if(validCoordinate(row-3, col-3)) { //upper left diagonal check
+						if(player == board[row-1][col-1] && player == board[row-2][col-2] & player== board[row-3][col-3])
+							return player;						
+					}
+					if(validCoordinate(row-3, col+3)) { //upper right diagonal check
+						if(player == board[row-1][col+1] && player == board[row-2][col+2] & player== board[row-3][col+3])
+							return player;						
+					}
+					if(validCoordinate(row+3, col-3)) { //lower left diagonal check 
+						if(player == board[row+1][col-1] && player == board[row+2][col-2] & player== board[row+3][col-3])
+							return player;						
+					}
+					if(validCoordinate(row+3, col+3)) { //lower right diagonal check
+						if(player == board[row+1][col+1] && player == board[row+2][col+2] & player== board[row+3][col+3])
+							return player;						
+					}					
+					
+				}
+			}
+		}
+		return EMPTY;
 	}
 
+	
+	public static void main(String[] args) {
+		ConnectFourBoard CFboard = new ConnectFourBoard();
+	}
+	
 }
