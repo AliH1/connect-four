@@ -13,7 +13,7 @@ public class ConnectFour {
 	private char WhosTurn = ConnectFourBoard.P1; //player1's turn to begin
 	
 	public char getWhosTurn() {
-		return WhosTurn;
+		return this.WhosTurn;
 	}
 	
 	public boolean move(int colPos, char player){
@@ -21,14 +21,17 @@ public class ConnectFour {
 		if(rowPos == -1)
 			return false;
 		board.updateBoard(player, rowPos, colPos);
+		this.WhosTurn = ConnectFourBoard.otherPlayer(this.WhosTurn);
 		return true;	
 	}
 	
 	public char getWinner() {
-		if(board.isDraw())
-			return 'D'; //for draw
-		return board.findWinner();
-
+		char winner = board.findWinner();
+		if(winner == ConnectFourBoard.EMPTY) {
+			if(board.isDraw()) 
+				return 'D';
+		}
+		return winner;
 	}
 	
 }

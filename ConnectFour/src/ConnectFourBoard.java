@@ -1,8 +1,8 @@
 public class ConnectFourBoard {
 	//P1 refers to the Red disc P2 refers to Yellow disc
 
-	public static final char EMPTY =' ', P1 = 'R', P2 = 'Y';
-	private char[][] board;
+	public static final char EMPTY = 'E', P1 = 'R', P2 = 'Y';
+	private char[][] board = new char[6][7];
 
 	public ConnectFourBoard(){
 		for (int row = 0; row < ConnectFour.length; row++){
@@ -25,8 +25,8 @@ public class ConnectFourBoard {
 		if(board[0][colPos] == P1 | board[0][colPos] == P2)  
 			return -1;
 		
-		if(rowPos>6)  
-			return 0;
+		if(rowPos>5)  
+			return 5;
 		
 		if(board[rowPos][colPos] == P1 | board[rowPos][colPos] == P2) 
 			return rowPos - 1; 
@@ -49,6 +49,15 @@ public class ConnectFourBoard {
 				System.out.print(board[row][col] + " ");
 			}
 		}
+		System.out.print("\n");
+	}
+	
+	public static char otherPlayer(char player) {
+		if (player == P1)   //this function should only use P1 and P2 as inputs
+			return P2;
+	
+		return P1;
+	
 	}
 	
 	private boolean validCoordinate(int row, int col) {
@@ -56,8 +65,6 @@ public class ConnectFourBoard {
 	}
 	
 	public char findWinner(){
-		int length = ConnectFour.length;
-		int width = ConnectFour.width;
 		for (int row = 0; row < ConnectFour.length; row++){
 			for (int col = 0; col < ConnectFour.width; col++){
 				char player = board[row][col];
@@ -104,6 +111,22 @@ public class ConnectFourBoard {
 	
 	public static void main(String[] args) {
 		ConnectFourBoard CFboard = new ConnectFourBoard();
+		CFboard.updateBoard(P1, CFboard.dropdownPos(0, 2), 2);
+		CFboard.display();
+		CFboard.updateBoard(P1, CFboard.dropdownPos(0, 2), 2);
+		CFboard.updateBoard(P1, CFboard.dropdownPos(0, 2), 2);
+		CFboard.display();
+
+		CFboard.updateBoard(P2, CFboard.dropdownPos(0, 3), 3);
+		CFboard.display();
+		CFboard.updateBoard(P1, CFboard.dropdownPos(0, 3), 3);
+		CFboard.display();
+		CFboard.updateBoard(P2, CFboard.dropdownPos(0, 3), 3);
+		CFboard.display();
+		
+		System.out.println(CFboard.findWinner());
+		CFboard.updateBoard(P1, CFboard.dropdownPos(0, 2), 2);
+		System.out.println(CFboard.findWinner());
 	}
 	
 }
