@@ -5,8 +5,8 @@ public class ConnectFourBoard {
 	private char[][] board = new char[6][7];
 
 	public ConnectFourBoard(){
-		for (int row = 0; row < ConnectFour.length; row++){
-			for (int col = 0; col < ConnectFour.width; col++){
+		for (int row = 0; row < ConnectFourModel.length; row++){
+			for (int col = 0; col < ConnectFourModel.width; col++){
 				this.board[row][col] = EMPTY;
 			}
 		}
@@ -43,9 +43,9 @@ public class ConnectFourBoard {
 	}
 
 	public void display() {
-		for (int row = 0; row < ConnectFour.length; row++){
+		for (int row = 0; row < ConnectFourModel.length; row++){
 			System.out.print("\n");
-			for (int col = 0; col < ConnectFour.width; col++){
+			for (int col = 0; col < ConnectFourModel.width; col++){
 				System.out.print(board[row][col] + " ");
 			}
 		}
@@ -61,12 +61,12 @@ public class ConnectFourBoard {
 	}
 	
 	private boolean validCoordinate(int row, int col) {
-		return 0 <= row && row < ConnectFour.length && 0 <= col && col < ConnectFour.width;
+		return 0 <= row && row < ConnectFourModel.length && 0 <= col && col < ConnectFourModel.width;
 	}
 	
 	public char findWinner(){
-		for (int row = 0; row < ConnectFour.length; row++){
-			for (int col = 0; col < ConnectFour.width; col++){
+		for (int row = 0; row < ConnectFourModel.length; row++){
+			for (int col = 0; col < ConnectFourModel.width; col++){
 				char player = board[row][col];
 				if(player != EMPTY) {
 					if(validCoordinate(row, col+3)) { //horizontal right check

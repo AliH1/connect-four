@@ -6,7 +6,7 @@
  *
  */
 
-public class ConnectFour {
+public class ConnectFourModel {
 	public static final int length = 6;
 	public static final int width = 7;
 	private ConnectFourBoard board = new ConnectFourBoard();

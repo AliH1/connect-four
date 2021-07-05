@@ -1,5 +1,10 @@
+import java.util.Observable;
+import java.util.Observer;
+
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,22 +25,41 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 
-public class ConnectFourApplication extends Application {
+public class ConnectFourView extends Application{
 	
-	private int ROWS = ConnectFour.length;
-	private int COLS = ConnectFour.width;
+	private int ROWS = ConnectFourModel.length;
+	private int COLS = ConnectFourModel.width;
+	
+	Scene playMenu, board, gameOver;
+	
 	@Override
 	public void start(Stage stage) throws Exception {
-		//Model
-		ConnectFour cf = new ConnectFour();
+		ConnectFourModel cf = new ConnectFourModel();
+		
+		Pane menuPane = new Pane();
+		playMenu = new Scene(menuPane, 700, 700);
+		menuPane.setStyle("-fx-background-color: lightblue");
+		Image cfText = new Image("cftext.png");
+		ImageView cfTextView = new ImageView(cfText);
+		Button play = new Button("Play");
+		
+		menuPane.getChildren().addAll(cfTextView, play);
+		
+		cfTextView.setLayoutY(0);
+		cfTextView.setLayoutX(50);
+		
+		play.setPrefSize(200, 50);
+		play.setLayoutY(450);
+		play.setLayoutX(250);
+		play.setStyle("-fx-font-weight: bold; -fx-font-size: 35; -fx-color: #0000ff");
 		
 		BorderPane border = new BorderPane();
 		Pane topPane = new Pane();
 		GridPane grid = new GridPane();	
 		
-		Scene scene = new Scene(border,700,700);
+		board = new Scene(border,700,700);
 		
-		scene.setOnMouseDragEntered(null);
+		board.setOnMouseDragEntered(null);
 		
 		border.setCenter(grid);
 		border.setTop(topPane);
@@ -109,13 +133,35 @@ public class ConnectFourApplication extends Application {
 	        } 
 	    };	
 	    
-	    scene.addEventHandler(MouseEvent.MOUSE_MOVED, arrowMouseMovedHandler);
-	    scene.addEventFilter(MouseEvent.MOUSE_EXITED, arrowMouseExitHandler);
+	    board.addEventHandler(MouseEvent.MOUSE_MOVED, arrowMouseMovedHandler);
+	    board.addEventFilter(MouseEvent.MOUSE_EXITED, arrowMouseExitHandler);
+	         
 		Image icon = new Image("connect4Icon.png");
 		stage.getIcons().add(icon);
 		stage.setTitle("Connect Four");
 		stage.setResizable (false);
-		stage.setScene(scene);
+		stage.setScene(playMenu);
+		EventHandler<MouseEvent> playButtonHighlight = new EventHandler<MouseEvent>() { 
+	        @Override 
+	        public void handle(MouseEvent e) { 
+	        	play.setStyle("-fx-font-weight: bold; -fx-font-size: 35; -fx-color: #5000ff");
+	        } 
+	    };	
+	    EventHandler<MouseEvent> playButtonReverse= new EventHandler<MouseEvent>() { 
+	        @Override 
+	        public void handle(MouseEvent e) { 
+	        	play.setStyle("-fx-font-weight: bold; -fx-font-size: 35; -fx-color: #0000ff");
+	        } 
+	    };	
+		play.addEventFilter(MouseEvent.MOUSE_ENTERED, playButtonHighlight);
+		play.addEventFilter(MouseEvent.MOUSE_EXITED, playButtonReverse);
+		menuBtn.setOnAction(click->{
+			stage.setScene(playMenu);
+		});
+		play.setOnAction(click->{
+			stage.setScene(board);
+		});
+
 		stage.show();
 	}
 	
@@ -125,7 +171,6 @@ public class ConnectFourApplication extends Application {
 				for(int j = 0; j<ROWS; j++) {
 					Shape shape = new Rectangle(100,100);
 			        Circle circle = new Circle(50,50,45);
-			        circle.setFill(Color.BLACK);
 			        shape = Shape.subtract(shape, circle);
 			        shape.setFill(Color.BLUE);
 					grid.add(shape, i, j);
@@ -134,6 +179,19 @@ public class ConnectFourApplication extends Application {
 
 	}
 	
+	public Node getNode(final int row, final int column, GridPane gridPane) {
+	    Node result = null;
+	    ObservableList<Node> childrens = gridPane.getChildren();
+
+	    for (Node node : childrens) {
+	        if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+	            result = node;
+	            break;
+	        }
+	    }
+
+	    return result;
+	}
 	
 	public static void main(String[] args) {
 		launch(args);
