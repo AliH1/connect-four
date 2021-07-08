@@ -27,10 +27,8 @@ import javafx.stage.Stage;
 
 public class ConnectFourView extends Application{
 	
-	private int ROWS = ConnectFourModel.length;
-	private int COLS = ConnectFourModel.width;
-	
-	Scene playMenu, board, gameOver;
+	private Scene playMenu, board, gameOver;
+	private Label whosturnLabel;
 	
 	@Override
 	public void start(Stage stage) throws Exception {
@@ -84,19 +82,13 @@ public class ConnectFourView extends Application{
 		restartBtn.setPrefWidth(65);
 		restartBtn.setStyle("-fx-font-weight: bold;");
 		
-		Label whosTurnLabel = new Label();
-		whosTurnLabel.setLayoutY(5);
-		whosTurnLabel.setLayoutX(5);
-		whosTurnLabel.setFont(Font.font("Arial", FontWeight.BOLD, 15));
-		if(cf.getWhosTurn() == 'R') {
-			whosTurnLabel.setText("Reds Turn");
-			whosTurnLabel.setTextFill(Color.RED);
-		}else {
-			whosTurnLabel.setText("Yellows Turn");
-			whosTurnLabel.setTextFill(Color.YELLOW);
-		}
+		whosturnLabel = new Label();
+		whosturnLabel.setLayoutY(5);
+		whosturnLabel.setLayoutX(5);
+		whosturnLabel.setFont(Font.font("Arial", FontWeight.BOLD, 15));
+	
 
-		topPane.getChildren().addAll(whosTurnLabel, restartBtn, menuBtn);
+		topPane.getChildren().addAll(whosturnLabel, restartBtn, menuBtn);
 		
 		Image arrow = new Image("arrow.png");
 		ImageView imageView = new ImageView(arrow);
@@ -167,8 +159,8 @@ public class ConnectFourView extends Application{
 	
 	
 	private void makeGrid(GridPane grid) {
-		 for(int i = 0; i<COLS; i++) {
-				for(int j = 0; j<ROWS; j++) {
+		 for(int i = 0; i<ConnectFourModel.width; i++) {
+				for(int j = 0; j<ConnectFourModel.length; j++) {
 					Shape shape = new Rectangle(100,100);
 			        Circle circle = new Circle(50,50,45);
 			        shape = Shape.subtract(shape, circle);
