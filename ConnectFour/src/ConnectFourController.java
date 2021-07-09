@@ -7,6 +7,8 @@ public class ConnectFourController {
 	private ConnectFourController(ConnectFourModel m, ConnectFourView v) {
 		model = m;
 		view = v;
+		initView();
+		initController();
 	}
 	
 	private void initView() {
