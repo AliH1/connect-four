@@ -10,19 +10,18 @@ public class ConnectFourModel {
 	public static final int length = 6;
 	public static final int width = 7;
 	private ConnectFourBoard board = new ConnectFourBoard();
-	private char WhosTurn = ConnectFourBoard.P1; //player1's turn to begin
+	private char whosTurn = ConnectFourBoard.P1; //player1's turn to begin
 	
 	public char getWhosTurn() {
-		return this.WhosTurn;
+		return this.whosTurn;
 	}
 	
-	public boolean move(int colPos, char player){
+	public int move(int colPos){
 		int rowPos = this.board.dropdownPos(0, colPos);
-		if(rowPos == -1)
-			return false;
-		board.updateBoard(player, rowPos, colPos);
-		this.WhosTurn = ConnectFourBoard.otherPlayer(this.WhosTurn);
-		return true;	
+		if(rowPos != -1)
+			board.updateBoard(whosTurn, rowPos, colPos);
+		this.whosTurn = ConnectFourBoard.otherPlayer(this.whosTurn);
+		return rowPos;	
 	}
 	
 	public char getWinner() {
