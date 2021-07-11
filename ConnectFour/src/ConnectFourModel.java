@@ -18,9 +18,10 @@ public class ConnectFourModel {
 	
 	public int move(int colPos){
 		int rowPos = this.board.dropdownPos(0, colPos);
-		if(rowPos != -1)
+		if(rowPos != -1) {
 			board.updateBoard(whosTurn, rowPos, colPos);
-		this.whosTurn = ConnectFourBoard.otherPlayer(this.whosTurn);
+			this.whosTurn = ConnectFourBoard.otherPlayer(this.whosTurn);
+		}
 		return rowPos;	
 	}
 	

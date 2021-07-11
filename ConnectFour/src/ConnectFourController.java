@@ -5,6 +5,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 
 public class ConnectFourController {
 	
@@ -20,10 +22,10 @@ public class ConnectFourController {
 		int y = model.move(xpos/100);
 		int x = xpos/100;
 		if(y != -1 ) {
-			GridPane grid = view.getGrid();
+			GridPane grid = view.getGridPane();
 		    grid.getChildren().remove(getNode(y, x, grid));
 		    Shape rect = new Rectangle(100,100);
-		    if(model.getWhosTurn() != 'R') {
+		    if(model.getWhosTurn() != ConnectFourBoard.P1) {
 		    	//the model has already updated whosTurn still need to reflect it on the view (the alternatives alternatives waste memory)
 		    	rect.setFill(Color.RED); 
 		    	view.getWhosTurnLabel().setText("Yellows Turn");
@@ -40,6 +42,26 @@ public class ConnectFourController {
 		    shape = Shape.subtract(shape, circle);
 		    shape.setFill(Color.BLUE);
 			grid.add(shape, x, y);
+			char winner = model.getWinner();
+			if(winner == 'D') {
+				view.getWinnerLabel().setText("Game is a Draw");
+				view.getWinnerLabel().setTextFill(Color.GREEN);
+				view.getStage().setScene(view.getGameOverScene());
+				view.getWinnerLabel().setLayoutX(235);
+			}
+			if(winner == ConnectFourBoard.P1) {
+				view.getWinnerLabel().setText("Red Player Wins");
+				view.getWinnerLabel().setTextFill(Color.RED);
+				view.getStage().setScene(view.getGameOverScene());
+				view.getWinnerLabel().setLayoutX(230);
+			}
+				
+			if(winner == ConnectFourBoard.P2) {
+				view.getWinnerLabel().setText("Yellow Player Wins");
+				view.getWinnerLabel().setTextFill(Color.YELLOW);
+				view.getStage().setScene(view.getGameOverScene());
+				view.getWinnerLabel().setLayoutX(210);
+			}
 			
 		}
 	}

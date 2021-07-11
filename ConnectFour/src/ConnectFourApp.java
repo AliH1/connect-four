@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,7 +25,7 @@ public class ConnectFourApp extends Application{
 	private ConnectFourController controller;
 	private Stage stage;
 	private Scene playMenu, board, gameOver;
-	private Label whosturnLabel;
+	private Label whosturnLabel, winner;
 	private GridPane grid;
 	private Button PvE, PvH;
 	
@@ -91,9 +92,9 @@ public class ConnectFourApp extends Application{
 	private void makeBoard(){
 		//setup for game scene with grid that represents the Connect Four board and upper Pane that shows 
 				BorderPane border = new BorderPane();
+				board = new Scene(border,700,700);
 				Pane topPane = new Pane();
 				grid = new GridPane();		
-				board = new Scene(border,700,700);
 				border.setCenter(grid);
 				border.setTop(topPane);
 				topPane.setPrefHeight(100);
@@ -166,12 +167,48 @@ public class ConnectFourApp extends Application{
 			    grid.addEventFilter(MouseEvent.MOUSE_CLICKED, moveRequest);
 	}
 	
+	private void makeGameOverScreen() {
+		Pane gameoverScreen = new Pane();
+		gameOver = new Scene(gameoverScreen, 700, 700);
+		gameoverScreen.setStyle("-fx-background-color: lightblue");
+		Image gameoverText = new Image("gameoverText.png");
+		ImageView gotextView = new ImageView(gameoverText);
+		gotextView.setLayoutY(250);
+		gotextView.setLayoutX(20);
+		winner = new Label();
+		winner.setLayoutY(400);
+		winner.setLayoutX(230);
+		winner.setFont(Font.font("Arial", FontWeight.BOLD, 30));
+		Button replayBtn = new Button("Replay");
+		replayBtn.setPrefSize(300,45);
+		replayBtn.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-color: #0000ff");
+		replayBtn.setLayoutX(200);
+		replayBtn.setLayoutY(500);
+		//below are 2 eventHandlers in order to highlight the button
+		EventHandler<MouseEvent> replayButtonHighlight = new EventHandler<MouseEvent>() { 
+			
+	        public void handle(MouseEvent e) { 
+	        	replayBtn.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-color: #5000ff");
+	        } 
+	    };	
+	    EventHandler<MouseEvent> replayButtonReverse= new EventHandler<MouseEvent>() { 
+	        @Override 
+	        public void handle(MouseEvent e) { 
+	        	replayBtn.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-color: #0000ff");
+	        } 
+	    };	
+		replayBtn.addEventFilter(MouseEvent.MOUSE_ENTERED, replayButtonHighlight);
+		replayBtn.addEventFilter(MouseEvent.MOUSE_EXITED, replayButtonReverse);
+		gameoverScreen.getChildren().addAll(winner, replayBtn, gotextView);
+	}
+	
 	@Override
 	public void start(Stage stage) throws Exception {
 		this.stage = stage;
 		this.initController();
 		this.makeMenu();
-		this.makeBoard();    
+		this.makeBoard();   
+		this.makeGameOverScreen();
 		Image icon = new Image("connect4Icon.png");
 		stage.getIcons().add(icon);
 		stage.setTitle("Connect Four");
@@ -191,22 +228,21 @@ public class ConnectFourApp extends Application{
 					grid.add(shape, i, j);
 				}
 			}
-
 	}
 	
 	public Stage getStage() {
 		return stage;
 	}
 	
-	public Scene getPlayMenu() {
+	public Scene getPlayMenuScene() {
 		return playMenu;
 	}
 	
-	public Scene getBoard() {
+	public Scene getBoardScene() {
 		return board;
 	}
 	
-	public Scene getGameOver() {
+	public Scene getGameOverScene() {
 		return gameOver;
 	}
 	
@@ -214,7 +250,7 @@ public class ConnectFourApp extends Application{
 		return whosturnLabel;
 	}
 	
-	public GridPane getGrid() {
+	public GridPane getGridPane() {
 		return grid;
 	}
 	
@@ -226,9 +262,12 @@ public class ConnectFourApp extends Application{
 		return PvH;
 	}
 	
+	public Label getWinnerLabel() {
+		return winner;
+	}
+	
 	public static void main(String[] args) {
 		launch(args);
-		
 	}
 
 }
