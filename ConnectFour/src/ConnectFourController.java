@@ -13,8 +13,8 @@ public class ConnectFourController {
 	private ConnectFourModel model;
 	private ConnectFourApp view;
 	
-	public ConnectFourController(ConnectFourApp v) {
-		model = new ConnectFourModel();
+	public ConnectFourController(ConnectFourApp v, String gameMode) {
+		model = new ConnectFourModel(new ConnectFourBoard(), gameMode);
 		view = v;
 	}
 	
@@ -78,6 +78,11 @@ public class ConnectFourController {
 	    }
 
 	    return result;
+	}
+
+	public void restartModel() {
+		this.model.restart();
+		
 	}
 	
 

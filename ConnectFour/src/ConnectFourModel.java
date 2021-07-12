@@ -9,9 +9,14 @@
 public class ConnectFourModel {
 	public static final int length = 6;
 	public static final int width = 7;
-	private ConnectFourBoard board = new ConnectFourBoard();
+	private ConnectFourBoard board;
 	private char whosTurn = ConnectFourBoard.P1; //player1's turn to begin
+	private String gameMode; 
 	
+	public ConnectFourModel(ConnectFourBoard board, String gameMode){
+		this.board = board;
+		this.gameMode = gameMode;
+	}
 	public char getWhosTurn() {
 		return this.whosTurn;
 	}
@@ -32,6 +37,11 @@ public class ConnectFourModel {
 				return 'D';
 		}
 		return winner;
+	}
+	
+	public void restart() {
+		this.board = new ConnectFourBoard();
+		this.whosTurn = ConnectFourBoard.P1;
 	}
 	
 }

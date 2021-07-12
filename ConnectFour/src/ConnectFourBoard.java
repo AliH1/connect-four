@@ -3,6 +3,7 @@ public class ConnectFourBoard {
 
 	public static final char EMPTY = 'E', P1 = 'R', P2 = 'Y';
 	private char[][] board = new char[6][7];
+	
 
 	public ConnectFourBoard(){
 		for (int row = 0; row < ConnectFourModel.length; row++){
