@@ -56,11 +56,12 @@ public class ConnectFourApp extends Application{
 	        public void handle(MouseEvent e) { 
 	        	PvP.setStyle("-fx-font-weight: bold; -fx-font-size: 30; -fx-color: #0000ff");
 	        } 
+	        
 	    };	
 		PvP.addEventFilter(MouseEvent.MOUSE_ENTERED, pvpButtonHighlight);
 		PvP.addEventFilter(MouseEvent.MOUSE_EXITED, pvpButtonReverse);
 		PvP.setOnAction(click-> {
-			controller = new ConnectFourController(this, "PvP");
+			controller = new ConnectFourController(this);
 			stage.setScene(board);
 		});
 		Button PvC = new Button("Player Vs CPU");
@@ -111,37 +112,37 @@ public class ConnectFourApp extends Application{
 		easyBtn.addEventFilter(MouseEvent.MOUSE_ENTERED, easyButtonHighlight);
 		easyBtn.addEventFilter(MouseEvent.MOUSE_EXITED, easyButtonReverse);
 	    easyBtn.setOnAction(click->{
-			controller = new ConnectFourController(this, "PvE");
+			controller = new ConnectFourController(this, new EasyConnectFourAlgorithm());
 	    	stage.setScene(board);
 	    });
-		Button hardBtn = new Button("Hard Mode");
-		hardBtn.setStyle("-fx-font-weight: bold; -fx-font-size: 40; -fx-color: #5000ff");
-    	hardBtn.setPrefSize(500, 90);
-    	hardBtn.setLayoutX(100);
-    	hardBtn.setLayoutY(400);
-		EventHandler<MouseEvent> hardButtonHighlight = new EventHandler<MouseEvent>() { 
+		Button mediumBtn = new Button("Medium Mode");
+		mediumBtn.setStyle("-fx-font-weight: bold; -fx-font-size: 40; -fx-color: #5000ff");
+    	mediumBtn.setPrefSize(500, 90);
+    	mediumBtn.setLayoutX(100);
+    	mediumBtn.setLayoutY(400);
+		EventHandler<MouseEvent> mediumButtonHighlight = new EventHandler<MouseEvent>() { 
 			
 	        public void handle(MouseEvent e) { 
-	        	hardBtn.setStyle("-fx-font-weight: bold; -fx-font-size: 40; -fx-color: #5000ff");
+	        	mediumBtn.setStyle("-fx-font-weight: bold; -fx-font-size: 40; -fx-color: #5000ff");
 	        } 
 	    };	
-	    EventHandler<MouseEvent> hardButtonReverse= new EventHandler<MouseEvent>() { 
+	    EventHandler<MouseEvent> mediumButtonReverse= new EventHandler<MouseEvent>() { 
 	        @Override 
 	        public void handle(MouseEvent e) { 
-	        	hardBtn.setStyle("-fx-font-weight: bold; -fx-font-size: 40; -fx-color: #0000ff");
+	        	mediumBtn.setStyle("-fx-font-weight: bold; -fx-font-size: 40; -fx-color: #0000ff");
 	        } 
 	    };	
-		hardBtn.addEventFilter(MouseEvent.MOUSE_ENTERED, hardButtonHighlight);
-		hardBtn.addEventFilter(MouseEvent.MOUSE_EXITED, hardButtonReverse);
-	    hardBtn.setOnAction(click->{
-			controller = new ConnectFourController(this, "PvH");
+		mediumBtn.addEventFilter(MouseEvent.MOUSE_ENTERED, mediumButtonHighlight);
+		mediumBtn.addEventFilter(MouseEvent.MOUSE_EXITED, mediumButtonReverse);
+	    mediumBtn.setOnAction(click->{
+			controller = new ConnectFourController(this, new MediumConnectFourAlgorithm()); //algorithm not implemented yet
 	    	stage.setScene(board);
 	    });
 	    Image selectdiffText = new Image("selectdifficultyText.png");
 		ImageView selectdifftextView = new ImageView(selectdiffText);
 		selectdifftextView.setLayoutY(70);
 		selectdifftextView.setLayoutX(10);
-	    difficultyselectPane.getChildren().addAll(selectdifftextView, easyBtn, hardBtn);
+	    difficultyselectPane.getChildren().addAll(selectdifftextView, easyBtn, mediumBtn);
 	}
 	
 	private void makeBoard(){
@@ -340,7 +341,6 @@ public class ConnectFourApp extends Application{
 		try {
 			this.start(stage);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

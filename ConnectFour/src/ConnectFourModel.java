@@ -11,17 +11,19 @@ public class ConnectFourModel {
 	public static final int width = 7;
 	private ConnectFourBoard board;
 	private char whosTurn = ConnectFourBoard.P1; //player1's turn to begin
-	private String gameMode; 
+	boolean gameOver = false;
 	
-	public ConnectFourModel(ConnectFourBoard board, String gameMode){
+	public ConnectFourModel(ConnectFourBoard board){
 		this.board = board;
-		this.gameMode = gameMode;
 	}
 	public char getWhosTurn() {
 		return this.whosTurn;
 	}
 	
 	public int move(int colPos){
+		if(gameOver) {
+			return -1;
+		}
 		int rowPos = this.board.dropdownPos(0, colPos);
 		if(rowPos != -1) {
 			board.updateBoard(whosTurn, rowPos, colPos);
@@ -42,6 +44,14 @@ public class ConnectFourModel {
 	public void restart() {
 		this.board = new ConnectFourBoard();
 		this.whosTurn = ConnectFourBoard.P1;
+	}
+	
+	public ConnectFourBoard getBoard() {
+		return this.board;
+	}
+	public void setGameOver() {
+		gameOver = true;
+		
 	}
 	
 }
